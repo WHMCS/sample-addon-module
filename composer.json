@@ -1,0 +1,27 @@
+{
+    "name": "whmcs/sample-addon-module",
+    "description": "Sample Addon Module for WHMCS Billing Automation Platform",
+    "keywords": [
+        "whmcs",
+        "web host automation platform",
+        "addon module"
+    ],
+    "homepage": "http://www.whmcs.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "WHMCS Development Team",
+            "email": "development@whmcs.com",
+            "homepage": "http://www.whmcs.com/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "support@whmcs.com",
+        "forum": "http://forums.whmcs.com/",
+        "wiki": "http://docs.whmcs.com/"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    }
+}
