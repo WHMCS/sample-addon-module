@@ -30,6 +30,18 @@ if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
 }
 
+function classLoadAddonModule ($class)
+{
+    $path = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+    $path = str_replace('WHMCS' . DIRECTORY_SEPARATOR . 'Module' . DIRECTORY_SEPARATOR . 'Addon' . DIRECTORY_SEPARATOR . 'AddonModule' , 'lib' , $path);
+    $file = __DIR__ . DIRECTORY_SEPARATOR . $path . '.php';
+    if (file_exists($file)) {
+        require_once $file;
+    }
+}
+
+spl_autoload_register('classLoadAddonModule');
+
 // Require any libraries needed for the module to function.
 // require_once __DIR__ . '/path/to/library/loader.php';
 //
