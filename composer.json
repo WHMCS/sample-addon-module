@@ -1,6 +1,7 @@
 {
     "name": "whmcs/sample-addon-module",
     "description": "Sample Addon Module for WHMCS Billing Automation Platform",
+    "type": "whmcs-addons",
     "keywords": [
         "whmcs",
         "web host automation platform",
