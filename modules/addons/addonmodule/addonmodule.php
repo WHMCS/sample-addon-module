@@ -37,6 +37,7 @@ if (!defined("WHMCS")) {
 
 use WHMCS\Module\Addon\AddonModule\Admin\AdminDispatcher;
 use WHMCS\Module\Addon\AddonModule\Client\ClientDispatcher;
+use WHMCS\Database\Capsule;
 
 /**
  * Define addon module configuration parameters.
@@ -55,63 +56,69 @@ use WHMCS\Module\Addon\AddonModule\Client\ClientDispatcher;
  */
 function addonmodule_config()
 {
-    return array(
-        'name' => 'Addon Module Sample', // Display name for your module
-        'description' => 'This module provides an example WHMCS Addon Module which can be used as a basis for building a custom addon module.', // Description displayed within the admin interface
-        'author' => 'Your name goes here', // Module author name
-        'language' => 'english', // Default language
-        'version' => '1.0', // Version number
-        'fields' => array(
+    return [
+        // Display name for your module
+        'name' => 'Addon Module Sample',
+        // Description displayed within the admin interface
+        'description' => 'This module provides an example WHMCS Addon Module'
+            . 'which can be used as a basis for building a custom addon module.',
+        // Module author name
+        'author' => 'Your name goes here',
+        // Default language
+        'language' => 'english',
+        // Version number
+        'version' => '1.0',
+        'fields' => [
             // a text field type allows for single line text input
-            'Text Field Name' => array(
+            'Text Field Name' => [
                 'FriendlyName' => 'Text Field Name',
                 'Type' => 'text',
                 'Size' => '25',
                 'Default' => 'Default value',
                 'Description' => 'Description goes here',
-            ),
+            ],
             // a password field type allows for masked text input
-            'Password Field Name' => array(
+            'Password Field Name' => [
                 'FriendlyName' => 'Password Field Name',
                 'Type' => 'password',
                 'Size' => '25',
                 'Default' => '',
                 'Description' => 'Enter secret value here',
-            ),
+            ],
             // the yesno field type displays a single checkbox option
-            'Checkbox Field Name' => array(
+            'Checkbox Field Name' => [
                 'FriendlyName' => 'Checkbox Field Name',
                 'Type' => 'yesno',
                 'Description' => 'Tick to enable',
-            ),
+            ],
             // the dropdown field type renders a select menu of options
-            'Dropdown Field Name' => array(
+            'Dropdown Field Name' => [
                 'FriendlyName' => 'Dropdown Field Name',
                 'Type' => 'dropdown',
-                'Options' => array(
+                'Options' => [
                     'option1' => 'Display Value 1',
                     'option2' => 'Second Option',
                     'option3' => 'Another Option',
-                ),
+                ],
                 'Description' => 'Choose one',
-            ),
+            ],
             // the radio field type displays a series of radio button options
-            'Radio Field Name' => array(
+            'Radio Field Name' => [
                 'FriendlyName' => 'Radio Field Name',
                 'Type' => 'radio',
                 'Options' => 'First Option,Second Option,Third Option',
                 'Description' => 'Choose your option!',
-            ),
+            ],
             // the textarea field type allows for multi-line text input
-            'Textarea Field Name' => array(
+            'Textarea Field Name' => [
                 'FriendlyName' => 'Textarea Field Name',
                 'Type' => 'textarea',
                 'Rows' => '3',
                 'Cols' => '60',
                 'Description' => 'Freeform multi-line text input field',
-            ),
-        )
-    );
+            ],
+        ]
+    ];
 }
 
 /**
@@ -123,18 +130,38 @@ function addonmodule_config()
  *
  * This function is optional.
  *
+ * @see https://developers.whmcs.com/advanced/db-interaction/
+ *
  * @return array Optional success/failure message
  */
 function addonmodule_activate()
 {
     // Create custom tables and schema required by your module
-    $query = "CREATE TABLE `mod_addonexample` (`id` INT( 1 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,`demo` TEXT NOT NULL )";
-    full_query($query);
+    try {
+        Capsule::schema()
+            ->create(
+                'mod_addonexample',
+                function ($table) {
+                    /** @var \Illuminate\Database\Schema\Blueprint $table */
+                    $table->increments('id');
+                    $table->text('demo');
+                }
+            );
 
-    return array(
-        'status' => 'success', // Supported values here include: success, error or info
-        'description' => 'This is a demo module only. In a real module you might report an error/failure or instruct a user how to get started with it here.',
-    );
+        return [
+            // Supported values here include: success, error or info
+            'status' => 'success',
+            'description' => 'This is a demo module only. '
+                . 'In a real module you might report a success or instruct a '
+                    . 'user how to get started with it here.',
+        ];
+    } catch (\Exception $e) {
+        return [
+            // Supported values here include: success, error or info
+            "status" => "error",
+            "description" => "Unable to create mod_addonexample: {$e->getMessage()}",
+        ];
+    }
 }
 
 /**
@@ -146,18 +173,30 @@ function addonmodule_activate()
  *
  * This function is optional.
  *
+ * @see https://developers.whmcs.com/advanced/db-interaction/
+ *
  * @return array Optional success/failure message
  */
 function addonmodule_deactivate()
 {
     // Undo any database and schema modifications made by your module here
-    $query = "DROP TABLE `mod_addonexample`";
-    full_query($query);
+    try {
+        Capsule::schema()
+            ->dropIfExists('mod_addonexample');
 
-    return array(
-        'status' => 'success', // Supported values here include: success, error or info
-        'description' => 'This is a demo module only. In a real module you might report an error/failure here.',
-    );
+        return [
+            // Supported values here include: success, error or info
+            'status' => 'success',
+            'description' => 'This is a demo module only. '
+                . 'In a real module you might report a success here.',
+        ];
+    } catch (\Exception $e) {
+        return [
+            // Supported values here include: success, error or info
+            "status" => "error",
+            "description" => "Unable to drop mod_addonexample: {$e->getMessage()}",
+        ];
+    }
 }
 
 /**
@@ -168,6 +207,8 @@ function addonmodule_deactivate()
  *
  * This function is optional.
  *
+ * @see https://laravel.com/docs/5.7/migrations
+ *
  * @return void
  */
 function addonmodule_upgrade($vars)
@@ -176,14 +217,20 @@ function addonmodule_upgrade($vars)
 
     /// Perform SQL schema changes required by the upgrade to version 1.1 of your module
     if ($currentlyInstalledVersion < 1.1) {
-        $query = "ALTER `mod_addonexample` ADD `demo2` TEXT NOT NULL ";
-        full_query($query);
+        $schema = Capsule::schema();
+        //Alter the table and add a new text column called "demo2"
+        $schema->table('mod_addonexample', function($table) {
+            $table->text('demo2');
+        });
     }
 
     /// Perform SQL schema changes required by the upgrade to version 1.2 of your module
     if ($currentlyInstalledVersion < 1.2) {
-        $query = "ALTER `mod_addonexample` ADD `demo3` TEXT NOT NULL ";
-        full_query($query);
+        $schema = Capsule::schema();
+        //Alter the table and add a new text column called "demo3"
+        $schema->table('mod_addonexample', function($table) {
+            $table->text('demo3');
+        });
     }
 }
 
