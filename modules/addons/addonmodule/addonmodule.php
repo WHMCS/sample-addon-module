@@ -102,6 +102,7 @@ function addonmodule_config()
                     'option2' => 'Second Option',
                     'option3' => 'Another Option',
                 ],
+                'Default' => 'option2',
                 'Description' => 'Choose one',
             ],
             // the radio field type displays a series of radio button options
@@ -109,6 +110,7 @@ function addonmodule_config()
                 'FriendlyName' => 'Radio Field Name',
                 'Type' => 'radio',
                 'Options' => 'First Option,Second Option,Third Option',
+                'Default' => 'Third Option',
                 'Description' => 'Choose your option!',
             ],
             // the textarea field type allows for multi-line text input
@@ -117,6 +119,7 @@ function addonmodule_config()
                 'Type' => 'textarea',
                 'Rows' => '3',
                 'Cols' => '60',
+                'Default' => 'A default value goes here...',
                 'Description' => 'Freeform multi-line text input field',
             ],
         ]
