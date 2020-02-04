@@ -1,0 +1,32 @@
+{
+    "schema": "1.0",
+    "type": "whmcs-addons",
+    "name": "sample-addon-module",
+    "license": "MIT",
+    "category": "addon",
+    "description": {
+        "name": "Sample Addon Module",
+        "tagline": "An addon module allows you to add additional functionality to WHMCS.",
+        "long": "This sample file demonstrates how an addon module for WHMCS should be structured and exercises all supported functionality.",
+        "features": [
+            "Provide both client and admin facing user interfaces",
+            "Utilize hook functionality within WHMCS"
+        ]
+    },
+    "logo": {
+        "filename": "logo.png"
+    },
+    "support": {
+        "homepage": "https:\/\/www.whmcs.com\/", 
+        "learn_more": "https:\/\/www.whmcs.com\/tour", 
+        "email": "support@whmcs.com", 
+        "support_url": "https:\/\/support.whmcs.com\/",
+        "docs_url": "https:\/\/developers.whmcs.com\/addon-modules\/"
+    },
+    "authors": [
+        {
+            "name": "WHMCS",
+            "homepage": "https:\/\/www.whmcs.com\/"
+        }
+    ]
+}
